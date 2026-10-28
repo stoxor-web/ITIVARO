@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f7f6f2">
+  <meta name="description" content="ITIVARO, espace de préparation de voyages — prototype local V1.2.">
+  <title>ITIVARO · Mes voyages — V1.2</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="v12.css">
+  <script src="app.js" defer></script>
+  <script src="display.js" defer></script>
+</head>
+<body>
+  <svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="0" height="0">
+    <symbol id="icon-grid" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.3"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.3"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.3"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.3"/></symbol>
+    <symbol id="icon-route" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2"/><path d="M9 18h6a4 4 0 0 0 0-8h-6a4 4 0 0 1 0-8h8"/><path d="M14 1l3 1-3 2"/></symbol>
+    <symbol id="icon-wallet" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="15" rx="2.5"/><path d="M3 9h18"/><path d="M17 15h.01"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M8 12l2.8 2.8L16.5 9"/></symbol>
+    <symbol id="icon-download" viewBox="0 0 24 24"><path d="M12 3v12m-4-4 4 4 4-4M5 17v3h14v-3"/></symbol>
+    <symbol id="icon-upload" viewBox="0 0 24 24"><path d="M12 16V4m-4 4 4-4 4 4M5 17v3h14v-3"/></symbol>
+    <symbol id="icon-panel" viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5"/></symbol>
+  </svg>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Navigation principale">
+      <div class="brand-wrap"><img src="assets/logo-itivaro-original.png" alt="ITIVARO" class="brand-logo"><span class="brand-descriptor">JOURNEY STUDIO</span></div>
+      <div class="sidebar-section">ORGANISATION</div>
+      <nav class="navigation" id="mainNav" aria-label="Navigation de l’application">
+        <button type="button" class="nav-link is-active" data-view="voyages" aria-current="page"><span class="nav-icon"><svg aria-hidden="true"><use href="#icon-grid"/></svg></span><span>Mes voyages</span></button>
+        <button type="button" class="nav-link" data-view="itineraire"><span class="nav-icon"><svg aria-hidden="true"><use href="#icon-route"/></svg></span><span>Itinéraire</span></button>
+        <button type="button" class="nav-link" data-view="budget"><span class="nav-icon"><svg aria-hidden="true"><use href="#icon-wallet"/></svg></span><span>Budget</span></button>
+        <button type="button" class="nav-link" data-view="checklist"><span class="nav-icon"><svg aria-hidden="true"><use href="#icon-check"/></svg></span><span>À faire</span></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="side-quote"><span class="side-quote-icon">✧</span><div>Chaque itinéraire commence par une idée.</div><small>PLANIFIER · EXPLORER · PARTAGER</small></div>
+        <p>PROTOTYPE V1.2 <span class="online-point"></span> Sauvegarde locale<br>Vos données restent sur cet appareil.</p>
+      </div>
+    </aside>
+    <div class="workspace">
+      <header class="global-header">
+        <div class="breadcrumb"><span>ITIVARO</span><span class="chevron">/</span><strong id="breadcrumbCurrent">Mes voyages</strong></div>
+        <div class="header-right"><span class="local-pill" title="Aucune synchronisation entre appareils">● <span id="saveState">Enregistré localement</span></span><div class="display-controls" role="group" aria-label="Préférences d’affichage"><button type="button" class="header-icon-control" id="readingToggle" title="Confort de lecture" aria-label="Activer le confort de lecture" aria-pressed="false"><span aria-hidden="true">A<span class="text-small">a</span></span></button><button type="button" class="header-icon-control" id="focusToggle" title="Masquer le panneau latéral" aria-label="Masquer le panneau latéral" aria-pressed="false"><svg aria-hidden="true"><use href="#icon-panel"/></svg></button></div><span class="header-separator" aria-hidden="true"></span><button class="header-btn" id="exportData" type="button" title="Télécharger une sauvegarde JSON"><svg aria-hidden="true" class="tool-icon"><use href="#icon-download"/></svg> <span>Sauvegarder</span></button><label class="header-btn header-import" for="importData" title="Restaurer une sauvegarde JSON"><svg aria-hidden="true" class="tool-icon"><use href="#icon-upload"/></svg> <span>Importer</span></label><input class="visually-hidden" type="file" id="importData" accept=".json,application/json"><span class="user-avatar" aria-label="Profil local fictif">I</span></div>
+      </header>
+      <main class="content" id="content">
+        <section class="page-heading">
+          <div><div class="eyebrow" id="pageEyebrow">VOTRE ORGANISATION</div><h1 id="pageTitle">Mes voyages<span class="heading-period">.</span></h1><p id="pageSubtitle" class="page-subtitle">Vos projets d’évasion, organisés au même endroit.</p></div>
+          <div class="heading-actions"><button class="button button-primary" id="newTrip" type="button"><span class="button-plus">＋</span> Nouveau voyage</button></div>
+        </section>
+        <section class="view-content" id="viewContent" aria-live="polite"></section>
+        <footer class="app-footer"><span>ITIVARO · V1.2 locale de démonstration</span><span>Pas de compte · Pas de synchronisation · Pas de carte géographique</span></footer>
+      </main>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <dialog id="tripDialog" class="modal" aria-labelledby="tripDialogTitle">
+    <form id="tripForm" novalidate>
+      <div class="modal-top"><div><span class="eyebrow">CONFIGURATION</span><h2 id="tripDialogTitle">Créer un voyage</h2><p>Commencez par l’essentiel. Vous pourrez tout modifier ensuite.</p></div><button class="close-modal" type="button" data-close="tripDialog" aria-label="Fermer">×</button></div>
+      <div class="form-grid">
+        <label class="input-group span-2">Nom du voyage <span>*</span><input id="tripName" maxlength="80" required placeholder="Ex. Japon au printemps" autocomplete="off"></label>
+        <label class="input-group span-2">Destination principale <span>*</span><input id="tripDestination" maxlength="80" required placeholder="Ex. Japon" autocomplete="off"></label>
+        <label class="input-group">Date de départ <span>*</span><input id="tripStart" type="date" required></label>
+        <label class="input-group">Date de retour <span>*</span><input id="tripEnd" type="date" required></label>
+        <label class="input-group">Budget envisagé <small>(facultatif)</small><input id="tripBudget" type="number" min="0" max="100000000" step="0.01" placeholder="Ex. 3500"></label>
+        <label class="input-group">Devise<select id="tripCurrency"><option value="EUR">Euro (EUR)</option><option value="USD">Dollar (USD)</option><option value="GBP">Livre (GBP)</option><option value="JPY">Yen (JPY)</option></select></label>
+        <label class="input-group span-2">Notes <small>(facultatif)</small><textarea id="tripNotes" rows="3" maxlength="500" placeholder="Votre idée du voyage…"></textarea></label>
+      </div>
+      <p class="form-error" id="tripError" role="alert" hidden></p><div class="modal-actions"><button type="button" class="button button-outline" data-close="tripDialog">Annuler</button><button type="submit" class="button button-primary">Enregistrer le voyage</button></div>
+    </form>
+  </dialog>
+  <dialog id="stepDialog" class="modal" aria-labelledby="stepDialogTitle">
+    <form id="stepForm" novalidate>
+      <div class="modal-top"><div><span class="eyebrow">PARCOURS</span><h2 id="stepDialogTitle">Nouvelle étape</h2><p>Ajoutez une ville ou un lieu à découvrir.</p></div><button type="button" class="close-modal" data-close="stepDialog" aria-label="Fermer">×</button></div>
+      <div class="form-grid"><label class="input-group span-2">Ville ou étape <span>*</span><input id="stepName" maxlength="90" required placeholder="Ex. Kyoto"></label><label class="input-group span-2">Date <span>*</span><input id="stepDate" type="date" required></label><label class="input-group span-2">Notes <small>(facultatif)</small><textarea id="stepNotes" rows="3" maxlength="500" placeholder="Activités, bonnes adresses…"></textarea></label></div>
+      <p class="form-error" id="stepError" role="alert" hidden></p><div class="modal-actions"><button class="button button-outline" type="button" data-close="stepDialog">Annuler</button><button type="submit" class="button button-primary">Enregistrer l’étape</button></div>
+    </form>
+  </dialog>
+  <dialog id="expenseDialog" class="modal" aria-labelledby="expenseDialogTitle">
+    <form id="expenseForm" novalidate>
+      <div class="modal-top"><div><span class="eyebrow">FINANCES DU VOYAGE</span><h2 id="expenseDialogTitle">Ajouter une dépense</h2><p>Suivez les dépenses prévues et déjà payées.</p></div><button type="button" class="close-modal" data-close="expenseDialog" aria-label="Fermer">×</button></div>
+      <div class="form-grid"><label class="input-group span-2">Libellé <span>*</span><input id="expenseName" maxlength="90" required placeholder="Ex. Hôtel de Kyoto"></label><label class="input-group">Montant <span>*</span><input id="expenseAmount" type="number" min="0" max="100000000" step="0.01" placeholder="Ex. 240" required></label><label class="input-group">Catégorie<select id="expenseCategory"><option>Hébergement</option><option>Transport</option><option>Activité</option><option>Restauration</option><option>Autres</option></select></label><label class="input-group span-2">Statut<select id="expenseStatus"><option value="planned">À prévoir</option><option value="paid">Payée</option></select></label></div>
+      <p class="form-error" id="expenseError" role="alert" hidden></p><div class="modal-actions"><button class="button button-outline" type="button" data-close="expenseDialog">Annuler</button><button class="button button-primary" type="submit">Enregistrer la dépense</button></div>
+    </form>
+  </dialog>
+  <dialog id="taskDialog" class="modal" aria-labelledby="taskDialogTitle">
+    <form id="taskForm" novalidate>
+      <div class="modal-top"><div><span class="eyebrow">PRÉPARATIFS</span><h2 id="taskDialogTitle">Ajouter une tâche</h2><p>Notez ce qu’il reste à préparer pour le départ.</p></div><button type="button" class="close-modal" data-close="taskDialog" aria-label="Fermer">×</button></div><div class="form-grid"><label class="input-group span-2">À faire <span>*</span><input id="taskName" maxlength="120" required placeholder="Ex. Vérifier les passeports"></label><label class="input-group span-2">Échéance <small>(facultatif)</small><input id="taskDate" type="date"></label></div>
+      <p class="form-error" id="taskError" role="alert" hidden></p><div class="modal-actions"><button class="button button-outline" type="button" data-close="taskDialog">Annuler</button><button class="button button-primary" type="submit">Ajouter la tâche</button></div>
+    </form>
+  </dialog>
+</body>
+</html>
