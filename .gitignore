@@ -1,0 +1,27 @@
+# Secrets / local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+serviceAccountKey.json
+**/*service-account*.json
+.firebaserc
+.firebase/
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Dependencies / build artifacts
+node_modules/
+dist/
+coverage/
+*.log
+
+# Local trip backups / private files
+*-backup*.json
+*voyage*-sauvegarde*.json
+backup-*.json

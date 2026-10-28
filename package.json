@@ -1,0 +1,14 @@
+{
+  "name": "itivaro",
+  "private": true,
+  "version": "1.2.0",
+  "description": "ITIVARO travel planner local prototype",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev-server.mjs",
+    "check": "node scripts/verify.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
