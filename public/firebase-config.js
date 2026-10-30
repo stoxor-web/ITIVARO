@@ -1,7 +1,7 @@
 // ITIVARO V1.5 — Configuration WEB PUBLIQUE de Firebase.
-// Recopiez exactement la valeur apiKey depuis Firebase > Paramètres du projet > Vos applications > Web.
+// Paramètres Web du projet itivaro configurés depuis Firebase Console.
 // Une clé Firebase Web n'est PAS une clé de service et peut être publique; les accès sont protégés par les règles Firestore.
-// Tant que apiKey n'est pas remplacée, ITIVARO conserve le mode de démonstration local.
+// Le SDK Firebase est chargé par cloud.js depuis le CDN, sans installation npm.
 window.ITIVARO_FIREBASE_CONFIG = {
   apiKey: "AIzaSyC71kiveqhUoTWOStZJQxrVdIIWqEYHb3o",
   authDomain: "itivaro.firebaseapp.com",
