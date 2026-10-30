@@ -1,8 +1,30 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // V1.2 n.utilise pas Firestore. Tout reste interdit jusqu'à
-    // intégration Auth + permissions et tests d'autorisation.
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+    function validPayload() {
+      return request.resource.data.keys().hasOnly(['schemaVersion', 'revision', 'trips', 'updatedAt'])
+        && request.resource.data.keys().hasAll(['schemaVersion', 'revision', 'trips', 'updatedAt'])
+        && request.resource.data.schemaVersion == 1
+        && request.resource.data.revision is int
+        && request.resource.data.trips is list
+        && request.resource.data.trips.size() <= 100
+        && request.resource.data.updatedAt is timestamp;
+    }
+    // V1.5 : un seul état personnel par compte. Aucune invitation ni partage.
+    match /users/{userId}/state/{docId} {
+      allow get: if isOwner(userId) && docId == 'current';
+      allow list: if false;
+      allow create: if isOwner(userId) && docId == 'current'
+        && validPayload() && request.resource.data.revision == 1;
+      allow update: if isOwner(userId) && docId == 'current'
+        && validPayload()
+        && request.resource.data.revision == resource.data.revision + 1;
+      allow delete: if false;
+    }
+    // Toute autre collection est interdite, même si l'utilisateur est connecté.
     match /{document=**} {
       allow read, write: if false;
     }

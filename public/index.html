@@ -5,14 +5,18 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#142e3d">
-  <meta name="description" content="ITIVARO, espace de préparation de voyages — studio de voyage premium V1.4.">
-  <title>ITIVARO · Journey Studio — V1.4</title>
+  <meta name="description" content="ITIVARO, espace de préparation de voyages — studio de voyage premium V1.5 avec comptes et sauvegarde cloud.">
+  <title>ITIVARO · Journey Studio — V1.5</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="v12.css">
   <link rel="stylesheet" href="premium.css">
+  <link rel="stylesheet" href="cloud.css">
+  <script src="firebase-config.js"></script>
+  <script>if(window.ITIVARO_FIREBASE_CONFIG?.apiKey?.startsWith('AIza') && window.ITIVARO_FIREBASE_CONFIG?.projectId === 'itivaro' && window.ITIVARO_FIREBASE_CONFIG?.appId)document.documentElement.classList.add('cloud-enabled');</script>
   <script src="app.js" defer></script>
   <script src="map.js" defer></script>
   <script src="display.js" defer></script>
+  <script type="module" src="cloud.js"></script>
 </head>
 <body>
   <svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="0" height="0">
@@ -39,22 +43,47 @@
       </nav>
       <div class="sidebar-bottom">
         <div class="side-quote"><span class="side-quote-icon">✧</span><div>Chaque itinéraire commence par une idée.</div><small>PLANIFIER · EXPLORER · PARTAGER</small></div>
-        <p>PROTOTYPE V1.4 <span class="online-point"></span> Sauvegarde locale<br>Vos données restent sur cet appareil.</p>
+        <p>ITIVARO V1.5 <span class="online-point"></span> Espace de voyage privé<br>Sauvegarde locale ou cloud selon configuration.</p>
       </div>
     </aside>
     <div class="workspace">
       <header class="global-header">
         <div class="breadcrumb"><span>ITIVARO</span><span class="chevron">/</span><strong id="breadcrumbCurrent">Mes voyages</strong></div>
-        <div class="header-right"><span class="local-pill" title="Aucune synchronisation entre appareils">● <span id="saveState">Enregistré localement</span></span><div class="display-controls" role="group" aria-label="Préférences d’affichage"><button type="button" class="header-icon-control" id="readingToggle" title="Confort de lecture" aria-label="Activer le confort de lecture" aria-pressed="false"><span aria-hidden="true">A<span class="text-small">a</span></span></button><button type="button" class="header-icon-control" id="focusToggle" title="Masquer le panneau latéral" aria-label="Masquer le panneau latéral" aria-pressed="false"><svg aria-hidden="true"><use href="#icon-panel"/></svg></button></div><span class="header-separator" aria-hidden="true"></span><button class="header-btn" id="exportData" type="button" title="Télécharger une sauvegarde JSON"><svg aria-hidden="true" class="tool-icon"><use href="#icon-download"/></svg> <span>Sauvegarder</span></button><label class="header-btn header-import" for="importData" title="Restaurer une sauvegarde JSON"><svg aria-hidden="true" class="tool-icon"><use href="#icon-upload"/></svg> <span>Importer</span></label><input class="visually-hidden" type="file" id="importData" accept=".json,application/json"><span class="user-avatar" aria-label="Profil local fictif">I</span></div>
+        <div class="header-right"><div id="cloudBar" hidden><span id="cloudUserEmail"></span><button id="cloudSignOut" type="button">Déconnexion</button></div><span class="local-pill" title="État de la sauvegarde">● <span id="saveState">Enregistré localement</span></span><div class="display-controls" role="group" aria-label="Préférences d’affichage"><button type="button" class="header-icon-control" id="readingToggle" title="Confort de lecture" aria-label="Activer le confort de lecture" aria-pressed="false"><span aria-hidden="true">A<span class="text-small">a</span></span></button><button type="button" class="header-icon-control" id="focusToggle" title="Masquer le panneau latéral" aria-label="Masquer le panneau latéral" aria-pressed="false"><svg aria-hidden="true"><use href="#icon-panel"/></svg></button></div><span class="header-separator" aria-hidden="true"></span><button class="header-btn" id="exportData" type="button" title="Télécharger une sauvegarde JSON"><svg aria-hidden="true" class="tool-icon"><use href="#icon-download"/></svg> <span>Exporter JSON</span></button><label class="header-btn header-import" for="importData" title="Restaurer une sauvegarde JSON"><svg aria-hidden="true" class="tool-icon"><use href="#icon-upload"/></svg> <span>Importer</span></label><input class="visually-hidden" type="file" id="importData" accept=".json,application/json"><span class="user-avatar" aria-label="Profil ITIVARO">I</span></div>
       </header>
       <main class="content" id="content">
+        <div id="cloudWarning" class="cloud-warning" role="alert" hidden><span id="cloudWarningText"></span><button type="button" id="cloudRetry">Réessayer / recharger</button></div>
+        <div id="legacyMigration" class="legacy-migration" hidden>
+          <div><strong>Vous aviez des voyages sur cet appareil ?</strong><p>Ils peuvent être transférés vers votre compte après confirmation. Votre sauvegarde locale ne sera pas effacée.</p></div>
+          <button type="button" class="button button-outline button-small" id="importLocalTrips">Importer mes voyages locaux</button>
+          <button type="button" class="legacy-dismiss" id="dismissLegacy" aria-label="Masquer la proposition">×</button>
+        </div>
         <section class="page-heading">
           <div><div class="eyebrow" id="pageEyebrow">VOTRE ORGANISATION</div><h1 id="pageTitle">Mes voyages<span class="heading-period">.</span></h1><p id="pageSubtitle" class="page-subtitle">Vos projets d’évasion, organisés au même endroit.</p></div>
           <div class="heading-actions"><button class="button button-primary" id="newTrip" type="button"><span class="button-plus">＋</span> Nouveau voyage</button></div>
         </section>
         <section class="view-content" id="viewContent" aria-live="polite"></section>
-        <footer class="app-footer"><span>ITIVARO · Journey Studio V1.4 · Démonstration locale</span><span>Sans compte ni synchronisation · Carte externe sur demande</span></footer>
+        <footer class="app-footer"><span>ITIVARO · Journey Studio V1.5</span><span>Compte personnel et synchronisation · Collaboration à venir</span></footer>
       </main>
+    </div>
+  </div>
+  <div id="cloudGate" hidden aria-label="Connexion ITIVARO">
+    <div class="auth-panel">
+      <img class="auth-brand" src="assets/logo-itivaro-original.png" alt="ITIVARO">
+      <div class="auth-kicker">VOTRE STUDIO DE VOYAGE</div>
+      <h1 id="authTitle">Retrouvez vos voyages.</h1>
+      <p id="authHint">Connectez-vous pour retrouver vos voyages sur vos appareils.</p>
+      <form id="authForm">
+        <label>Adresse e-mail<input id="authEmail" type="email" autocomplete="email" inputmode="email" required></label>
+        <label>Mot de passe<input id="authPassword" type="password" minlength="6" autocomplete="current-password" required></label>
+        <p id="authError" class="auth-error" role="alert" hidden></p>
+        <button id="authSubmit" class="auth-primary" type="submit">Se connecter</button>
+      </form>
+      <div class="auth-separator"><span>ou continuer avec</span></div>
+      <button id="googleSignIn" class="auth-google" type="button">Se connecter avec Google</button>
+      <div class="auth-actions"><button id="authSwitch" class="auth-link" type="button">Créer un compte</button><button id="forgotPassword" class="auth-link" type="button">Mot de passe oublié ?</button></div>
+      <button id="authSignOut" type="button" class="auth-link auth-emergency-logout" hidden>Changer de compte</button>
+      <p class="auth-privacy">Vos voyages sont privés. Les comptes n’ont pas accès aux voyages des autres utilisateurs.</p>
     </div>
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>

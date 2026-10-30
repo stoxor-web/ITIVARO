@@ -124,7 +124,7 @@
         if(!p){row?.classList.add('is-unlocated');continue}
         row?.classList.remove('is-unlocated');valid.push({point:p,stage:s});
         const marker=L.marker(p,{icon:L.divIcon({className:'premium-location',html:'<span>'+String(i+1)+'</span>',iconSize:[34,34],iconAnchor:[17,17]})}).addTo(map);
-        marker.bindTooltip(s.name,{permanent:true,direction:'right',offset:[15,0],className:'premium-map-tooltip'});
+        const safeTooltip=document.createElement('span');safeTooltip.textContent=s.name;marker.bindTooltip(safeTooltip,{permanent:true,direction:'right',offset:[15,0],className:'premium-map-tooltip'});
         marker.on('click',()=>select(s.id));markers.set(s.id,marker);
       }
       // Only adjacent located stages are connected; never imply a route through an unknown stop.

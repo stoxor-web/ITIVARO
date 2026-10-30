@@ -1,3 +1,14 @@
+# ITIVARO V1.5 — Firebase Auth + Firestore personnel
+
+> **Installation :** Lire d'abord [`docs/INSTALLATION_FIREBASE_V15.md`](docs/INSTALLATION_FIREBASE_V15.md).
+> GitHub Pages : https://stoxor-web.github.io/ITIVARO/
+> **Sécurité :** publier les règles Firestore dans Firebase Console AVANT de mettre en ligne le code connecté.
+> **Configuration :** remplacer la clé Web `apiKey` dans `public/firebase-config.js` par la valeur exacte fournie dans Firebase.
+> **Fonctionnalités :** inscription e-mail, connexion Google, mot de passe oublié, voyages privés synchronisés, export/import JSON, transfert volontaire des voyages locaux.
+> **Limite :** V1.5 = un espace privé par utilisateur, pas encore de partage entre comptes ni d'itinéraires routiers réels.
+
+---
+
 # ITIVARO — Journey Studio Premium · V1.4
 
 Prototype fonctionnel local (sans backend) d’**ITIVARO**. Interface premium responsive, carte voyage interactive, parcours, budget, préparatifs et réglages d’accessibilité.

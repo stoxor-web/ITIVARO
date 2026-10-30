@@ -1,0 +1,49 @@
+/* ITIVARO / Auth — reprend le modèle Atlas minéral + Studio cartographique. */
+.cloud-enabled:not(.cloud-authenticated) .app-shell { visibility:hidden; pointer-events:none; }
+.cloud-enabled.cloud-authenticated #cloudBar {display:flex;}
+#cloudBar[hidden], #cloudGate[hidden], #cloudWarning[hidden] {display:none!important;}
+#cloudBar {align-items:center;gap:10px;max-width:320px}
+#cloudUserEmail {font-size:12px;max-width:190px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#264453;}
+#cloudSignOut {border:1px solid #c7cec8;border-radius:10px;background:#fff;color:#264453;padding:10px 12px;font:inherit;font-size:12px;cursor:pointer;min-height:40px}
+#cloudSignOut:hover {background:#edf0ec}
+#cloudGate {position:fixed;inset:0;z-index:9999;display:flex;justify-content:center;align-items:center;padding:24px;background:#f7f6f2;overflow:auto}
+.auth-panel {width:min(100%,440px);padding:34px;border:1px solid #e4e2da;border-radius:16px;background:#fff;box-shadow:0 15px 45px rgba(31,58,77,.07)}
+.auth-brand {width:min(215px,100%);height:auto;display:block;margin:0 auto 30px}
+.auth-panel h1 {font-family:Georgia,serif;font-size:30px;line-height:1.15;font-weight:500;letter-spacing:-.025em;color:#1F3A4D;margin:0 0 12px}
+.auth-panel p {color:#49606A;font-size:15px;line-height:1.6;margin:0 0 22px}
+.auth-panel label {display:block;color:#243F4E;font-weight:600;font-size:13px;margin-bottom:16px}
+.auth-panel input {display:block;width:100%;margin-top:8px;padding:13px 14px;border:1px solid #c7d0ce;border-radius:10px;background:#fff;color:#1F3A4D;font:inherit;font-size:16px;box-sizing:border-box}
+.auth-panel input:focus-visible,#cloudSignOut:focus-visible,.auth-link:focus-visible {outline:3px solid #8A9B7F;outline-offset:2px}
+.auth-primary {display:block;width:100%;padding:13px;border:0;border-radius:10px;background:#1F3A4D;color:#fff;font:inherit;font-size:15px;font-weight:650;cursor:pointer;min-height:48px}
+.auth-primary:disabled{opacity:.55;cursor:wait}
+.auth-actions {display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:14px}
+.auth-link {padding:8px 0;border:0;background:transparent;color:#264453;text-decoration:underline;text-underline-offset:3px;font:inherit;font-size:13px;cursor:pointer}
+.auth-error {font-size:13px!important;line-height:1.5!important;padding:10px 12px;margin:0 0 16px!important;background:#e8f0eb;border-radius:8px;color:#215244!important}
+.auth-error.is-error {background:#fff0ec;color:#8b342b!important}
+.cloud-warning {margin:0 0 14px;padding:13px 16px;background:#fff5e6;color:#6d4c24;border:1px solid #e7caa5;border-radius:12px;display:flex;justify-content:space-between;gap:14px;align-items:center;font-size:13px;line-height:1.5}
+.cloud-warning button {flex:none;background:#fff;color:#684721;border:1px solid #d3b88c;border-radius:8px;padding:8px 12px;cursor:pointer;font:inherit}
+@media(max-width:900px){#cloudBar{max-width:unset;gap:6px}#cloudUserEmail{max-width:110px}#cloudSignOut{padding:8px}}
+@media(max-width:640px){#cloudBar{position:fixed;top:8px;right:10px;z-index:100;max-width:210px}#cloudUserEmail{max-width:100px}.auth-panel{padding:26px 21px}.cloud-warning{align-items:flex-start;flex-direction:column}}
+@media(prefers-reduced-motion:reduce){.auth-panel,.cloud-warning{animation:none!important;transition:none!important}}
+
+/* V1.5 — harmonisation avec la navigation et la carte V1.4. */
+.cloud-enabled .user-avatar{display:none}
+.cloud-enabled .local-pill{min-width:0}
+.auth-kicker{font-size:10px;letter-spacing:.15em;color:#8A9B7F;font-weight:700;margin-bottom:13px}
+.auth-separator{position:relative;text-align:center;color:#75847d;margin:18px 0;font-size:11px}
+.auth-separator:before{content:"";height:1px;background:#e1e7e0;position:absolute;left:0;right:0;top:50%}
+.auth-separator span{position:relative;background:white;padding:0 11px}
+.auth-google{display:block;width:100%;min-height:45px;background:white;color:#1F3A4D;border:1px solid #bdcbc3;border-radius:10px;font:inherit;font-size:14px;font-weight:650;cursor:pointer}
+.auth-google:hover{background:#f5f7f3}
+.auth-google:focus-visible{outline:3px solid #8A9B7F;outline-offset:2px}
+.auth-panel .auth-privacy{margin:21px 0 0;font-size:11px;color:#79857e}
+.legacy-migration{margin:0 0 18px;border:1px solid #c9d8cd;background:#eef5ee;border-radius:12px;display:flex;gap:16px;align-items:center;padding:16px 18px;color:#2e5143}
+.legacy-migration[hidden]{display:none!important}
+.legacy-migration strong{font-size:14px}
+.legacy-migration p{font-size:12px;line-height:1.5;margin:4px 0 0;color:#51695e}
+.legacy-migration .button{flex:none}
+.legacy-dismiss{background:transparent;color:#667e72;border:0;font-size:22px;cursor:pointer}
+@media(max-width:1000px){.legacy-migration{flex-wrap:wrap}.legacy-migration .button{flex:1}}
+@media(max-width:640px){.cloud-enabled.cloud-authenticated #cloudBar{position:static;max-width:unset}.cloud-enabled.cloud-authenticated .header-right{flex-wrap:wrap}.legacy-migration{align-items:stretch}.legacy-migration .button{width:100%}}
+
+.auth-emergency-logout{margin-top:18px;color:#8B342B}
