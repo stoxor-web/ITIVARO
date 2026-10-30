@@ -2,36 +2,36 @@
 
 ## V1.2 (livrée)
 
-- [x] Interface responsive premium, monogramme original, animations discrètes
+- [x] Interface responsive, monogramme original, animations discrètes
 - [x] Voyages / étapes / budget / checklists en stockage navigateur
-- [x] Import et export JSON des voyages
-- [x] Contrôles statiques de fichiers et CI GitHub
+- [x] Import et export JSON des voyages et contrôle statique du dépôt
 
-## V1.3 — Fiabilité et comptes
+## V1.4 — Journey Studio Premium et carte (livrée dans cette archive)
+
+- [x] Habillage premium bleu ardoise / ivoire / vert sauge
+- [x] Navigation « Carte voyage » desktop / mobile synchronisée avec les étapes
+- [x] Marqueurs et lignes indicatives des étapes connues sur fond OpenStreetMap via Leaflet
+- [x] Recherche de lieux sur action explicite (Nominatim), avec cache local
+- [x] Schéma SVG de secours si les bibliothèques externes ne sont pas accessibles
+- [x] Réduction des animations lorsque `prefers-reduced-motion` est activé
+- [ ] Vérifier les tuiles et la recherche Nominatim sur l'hébergement final avec une connexion Internet (non vérifiables hors réseau)
+
+## V1.5 — Authentification et données synchronisées
 
 - [ ] Décider du backend : Firebase Authentication + Firestore envisagés
-- [ ] Définir le schéma de données versionné et les migrations depuis les sauvegardes JSON
-- [ ] Connexion / déconnexion / récupération de compte
-- [ ] Autorisations côté base pour chaque voyage et refus d'accès par défaut
-- [ ] Tests avec au moins deux comptes vérifiant l'absence de fuite entre voyages
-- [ ] Gestion des états hors ligne, erreurs et conflits de synchronisation
+- [ ] Définir les droits de chaque voyage et règles Firestore sécurisées (actuellement tout est refusé)
+- [ ] Prévoir une migration contrôlée des sauvegardes JSON locales
+- [ ] Tests multi-utilisateurs, erreurs, conflits et sauvegardes
 
-## V1.4 — Collaboration et carte
+## V1.6 — Cartographie avancée et collaboration
 
-- [ ] Invitations à durée et permissions contrôlées (propriétaire / éditeur / lecteur)
-- [ ] Carte MapLibre avec fournisseur de tuiles et quotas vérifiés
-- [ ] Ajout / déplacement de points et synchronisation des étapes
-- [ ] Réservations, documents non sensibles et tests sur mobile
+- [ ] Fournisseur de tuiles professionnel adapté au trafic, conditions et quotas confirmés
+- [ ] Géocodage robuste pour tous les lieux et correction manuelle de la position
+- [ ] Vrai calcul d'itinéraires (train, voiture, marche), avec durées et coûts selon un fournisseur dédié
+- [ ] Inviter propriétaires/éditeurs/lecteurs avec permissions contrôlées
 
-## V1.5 — Carnet hors connexion
+## V1.7 — Carnet hors connexion
 
-- [ ] PDF imprimable en respectant la charte ITIVARO
-- [ ] Cartes intégrées et informations pratiques réellement consultables hors ligne
-- [ ] Export complet vs export partageable sans données privées
-
-## Critères de qualité
-
-- Préférences `prefers-reduced-motion` et contraste vérifiés
-- Fonctionnalités testées, données persistées correctement, erreurs visibles
-- Aucune clé secrète dans le frontend / dépôt
-- Pas de publication publique non validée, ni d'ajout de services facturables par surprise
+- [ ] Export PDF imprimable et cartes sélectionnées intégrées sous licence adaptée
+- [ ] Informations pratiques réellement consultables sans réseau
+- [ ] Export complet et export partageable sans données privées

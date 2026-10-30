@@ -1,12 +1,12 @@
-# ITIVARO — Application de voyage · V1.2
+# ITIVARO — Journey Studio Premium · V1.4
 
-Prototype fonctionnel local (sans backend) de l'application de voyage **ITIVARO**. Interface premium responsive, monogramme de marque choisi, micro-animations et réglages de lisibilité.
+Prototype fonctionnel local (sans backend) d’**ITIVARO**. Interface premium responsive, carte voyage interactive, parcours, budget, préparatifs et réglages d’accessibilité.
 
 > **Important :** cette version n'a **pas de compte utilisateur**, de base de données distante ni de partage entre proches. Les voyages sont conservés **uniquement dans le navigateur** avec `localStorage`. Ne pas saisir de documents, mots de passe, informations de réservation sensibles ou autres données privées dans une démonstration publiée.
 
 ## Tester en local
 
-**Option rapide :** télécharger la version autonome HTML séparément ou ouvrir `public/index.html` (certaines fonctions des navigateurs se comportent différemment en mode `file://`).
+**Option rapide :** ouvrir `public/index.html` pour un aperçu, mais le serveur local est recommandé : certaines fonctions et ressources cartographiques se comportent différemment avec `file://`.
 
 **Option recommandée :** avec Node.js 20+ installé, ouvrir un terminal à la racine du dépôt :
 
@@ -35,10 +35,12 @@ npm run check
 - Budget et dépenses
 - Checklists
 - Export / import de sauvegardes JSON (à conserver à l'abri)
-- Interface ordinateur / mobile ; animations réduites si demandé par le système
+- Interface ordinateur / mobile avec habillage Premium V1.4 ; animations réduites si demandé par le système
+- Nouvelle vue **Carte voyage** : marqueurs, liens indicatifs à vol d’oiseau, sélection synchronisée des étapes et recentrage
+- Fond géographique **OpenStreetMap** via Leaflet (connexion Internet), localisation manuelle via Nominatim ; schéma SVG hors ligne en cas d’échec
 - Mode confort de lecture, mode concentration et raccourcis clavier
 
-**Non inclus dans la V1.2 :** authentification Firebase, Firestore connecté, véritable carte géographique, partage de voyages et invitations, PDF final.
+**Non inclus dans la V1.4 :** authentification Firebase, Firestore connecté, calcul d’itinéraires routiers, partage de voyages et invitations, PDF final.
 
 ## Structure
 
@@ -48,6 +50,8 @@ public/                       # Site statique hébergeable
   app.js
   styles.css
   v12.css
+  premium.css              # Nouvelle direction artistique V1.4
+  map.js                  # Carte, fallback hors ligne et géocodage manuel
   display.js
   assets/logo-itivaro-original.png
 scripts/
@@ -76,15 +80,16 @@ README.md
 Dans le dossier décompressé :
 
 ```bash
-git init
-git branch -M main
+git clone https://github.com/stoxor-web/ITIVARO.git
+cd ITIVARO
+# Copier ici le contenu décompressé du patch V1.4
+npm run check
 git add .
-git commit -m "Initialisation ITIVARO V1.2"
-git remote add origin https://github.com/UTILISATEUR/NOM-DU-DEPOT.git
-git push -u origin main
+git commit -m "ITIVARO V1.4 — Journey Studio Premium et carte"
+git push origin main
 ```
 
-Si le dépôt distant possède déjà des fichiers / un historique, **ne pas remplacer aveuglément** le contenu. Cloner le dépôt d'abord et copier les fichiers dans le clone, puis créer un commit. Remplacer `UTILISATEUR/NOM-DU-DEPOT` par la véritable adresse de votre dépôt.
+Sur un dépôt déjà existant, travailler dans un clone pour préserver son historique et contrôler les changements avant le commit. Ne pas importer de sauvegardes privées dans GitHub.
 
 ## Hébergement (facultatif)
 
@@ -97,9 +102,19 @@ Avant toute mise à jour, utiliser **Sauvegarder** dans l'application pour tél�
 
 ## Sécurité, limites et statut
 
-- Aucune clé API ou mot de passe n'est nécessaire et aucune clé privée n'est incluse.
+- Aucune clé API ou mot de passe n’est nécessaire et aucune clé privée n’est incluse.
 - Les règles Firestore présentes dans le dépôt interdisent **toutes** les lectures et écritures tant qu'un backend réellement sécurisé n'est pas développé.
 - Les droits par voyage, l'authentification, le consentement éventuel aux traceurs, la politique de confidentialité et les mentions légales restent à traiter avant une vraie mise en service.
 - Le nom de marque et les domaines restent soumis aux vérifications juridiques avant utilisation publique.
+
+### Carte et confidentialité
+
+- La carte réelle est chargée **uniquement lorsque la vue Carte voyage est ouverte**. Elle utilise Leaflet 1.9.4 (CDN unpkg) et des tuiles OpenStreetMap (requêtes externes). Les utilisateurs doivent être informés de ces connexions. En production, choisir un fournisseur de tuiles avec une offre adaptée à l’usage prévu et afficher l’attribution.
+- Les marqueurs des villes connues sont disponibles sans connexion. Le schéma hors ligne place les étapes à partir de leurs coordonnées mais n'affiche **pas** de fond cartographique authentique.
+- Le bouton **Localiser** déclenche une recherche Nominatim **uniquement sur demande** et envoie le nom de la ville et la destination au service tiers. Les coordonnées trouvées sont conservées dans un cache local distinct (`itivaro-map-locations-v14`). Pour une application à fort trafic, utiliser une API de géocodage disposant d'une politique d'usage appropriée.
+- Les segments sont des **lignes droites de repérage**, pas des routes ni un calcul de temps de transport. Aucun itinéraire calculé n'est présenté.
+- Aucune donnée des voyages n'est automatiquement envoyée à Firebase. Le navigateur conserve la même clé `itivaro-v11-trips` et le même format de sauvegarde JSON V1.2.
+
+**Installer V1.4 :** voir [docs/INSTALLATION_PREMIUM_V14.txt](docs/INSTALLATION_PREMIUM_V14.txt).
 
 Voir [docs/PROCHAINES_ETAPES.md](docs/PROCHAINES_ETAPES.md) pour la feuille de route technique.
