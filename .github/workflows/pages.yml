@@ -1,25 +1,60 @@
-name: Publier la démo ITIVARO sur GitHub Pages
-# Publication volontaire uniquement : aucune mise en ligne automatique.
+
+name: Publier ITIVARO sur GitHub Pages
+
+# Déploiement automatique à chaque modification de main
+# Déploiement manuel également possible depuis GitHub Actions
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
+
+# Autorisations nécessaires pour GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
+
+# Évite plusieurs déploiements simultanés
 concurrency:
   group: github-pages
-  cancel-in-progress: false
+  cancel-in-progress: true
+
 jobs:
   deploy:
+    name: Vérifier et publier ITIVARO
+    runs-on: ubuntu-latest
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      # 1. Récupérer le code du dépôt
+      - name: Récupérer les fichiers
+        uses: actions/checkout@v4
+
+      # 2. Préparer Node.js
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # 3. Vérifier les fichiers du projet
+      - name: Vérifier ITIVARO
+        run: npm run check
+
+      # 4. Configurer GitHub Pages
+      - name: Configurer GitHub Pages
+        uses: actions/configure-pages@v5
+
+      # 5. Préparer le site Web
+      - name: Préparer les fichiers publics
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
-      - id: deployment
+
+      # 6. Publier le site
+      - name: Déployer ITIVARO
+        id: deployment
         uses: actions/deploy-pages@v4
